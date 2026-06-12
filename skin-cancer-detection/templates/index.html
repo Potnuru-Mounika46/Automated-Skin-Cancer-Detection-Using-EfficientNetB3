@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Skin Cancer Detection</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #6dd5ed, #2193b0);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 350px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        input[type="file"] {
+            margin: 15px 0;
+        }
+
+        button {
+            padding: 10px 25px;
+            border: none;
+            background: #007BFF;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        img {
+            margin-top: 15px;
+            width: 100%;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .malignant { color: red; }
+        .benign { color: green; }
+        .invalid { color: orange; }
+
+        .confidence {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <h2>Skin Lesion Detection</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" onchange="previewImage(event)" required>
+        <br>
+        <button type="submit">Detect</button>
+    </form>
+
+    <!-- Image Preview -->
+    <img id="preview">
+
+    <!-- Result -->
+    {% if prediction %}
+        <div class="result
+            {% if prediction == 'MALIGNANT' %}malignant
+            {% elif prediction == 'BENIGN' %}benign
+            {% else %}invalid
+            {% endif %}
+        ">
+            Result: {{ prediction }}
+        </div>
+
+        {% if confidence %}
+            <div class="confidence">
+                Confidence: {{ "%.2f"|format(confidence) }}%
+            </div>
+        {% endif %}
+    {% endif %}
+
+</div>
+
+<script>
+function previewImage(event) {
+    const reader = new FileReader();
+    reader.onload = function(){
+        const img = document.getElementById('preview');
+        img.src = reader.result;
+        img.style.display = "block";
+    }
+    reader.readAsDataURL(event.target.files[0]);
+}
+</script>
+
+</body>
+</html>
