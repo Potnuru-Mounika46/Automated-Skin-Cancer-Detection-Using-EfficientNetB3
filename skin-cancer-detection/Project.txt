@@ -1,5 +1,0 @@
-https://github.com/ShafiHajiShaik/Skin-Cancer-Detection.git
-
-git@github.com:ShafiHajiShaik/Skin-Cancer-Detection.git
-
-s
